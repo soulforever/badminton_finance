@@ -8,7 +8,7 @@ import unittest
 
 class AdvancedTestSuite(unittest.TestCase):
     """
-    Advanced test case.
+    Advanced test cases for exception.
     """
     def check_input_line_test(self):
         with self.assertRaises(ValueError):

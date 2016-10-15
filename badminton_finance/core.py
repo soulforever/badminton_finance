@@ -2,10 +2,9 @@
 __author__ = 'guti'
 
 '''
-A module calculate the cost of ordering badminton court.
+A module calculate the profit of ordering badminton court.
 '''
 
-import logging
 import datetime
 import re
 
@@ -24,6 +23,7 @@ def check_input_line(format_str_line):
 
     :param format_str_line: str, one line input.
     :return: None.
+    :raise: ValueError or AssertionError.
     """
     input_list = format_str_line.split()
     assert len(input_list), 'Input information is not complete.'
@@ -45,6 +45,7 @@ def courts(applicants):
 
     :param applicants: int, numbers of applicants.
     :return: int, courts will order.
+    :raise: ValueError.
 
     Usage::
         >>> courts(3)
@@ -63,7 +64,6 @@ def courts(applicants):
     elif strategy_str == 'plus':
         return quotient + 1
     else:
-        logging.warning(strategy_str)
         raise ValueError('Can not resolve the strategy string.')
 
 
@@ -77,11 +77,11 @@ def income(applicants):
     return applicants * INCOMES_PER_APPLICANT
 
 
-def payment(payment_list):
+def payment(info_list):
     """
     Calculate the payment by the hours and payment per hour.
 
-    :param payment_list: list, formed by tuple with hours and payment.
+    :param info_list: list, formed by tuple with hours and payment.
     :return: int, payment calculated by the information of the payment list.
 
     Usage::
@@ -90,7 +90,7 @@ def payment(payment_list):
         >>> payment([(2,40), (3, 50)])
         230
     """
-    return sum(hours * payment_per_hour for (hours, payment_per_hour) in payment_list)
+    return sum(hours * payment_per_hour for (hours, payment_per_hour) in info_list)
 
 
 def day_of_week(data_str):
@@ -121,6 +121,7 @@ def _payment_list_driver(hour_range_tuple, charge_strategy, result_list):
     :param charge_strategy: dict, charge strategy of the day.
     :param result_list: list, items are tuple formed by hours and charge.
     :return: list, result list after recursion.
+    :raise: AssertionError.
 
     Usage::
         >>> time_1 = datetime.datetime.strptime('20:00', '%H:%M')
@@ -155,7 +156,7 @@ def payment_list(hour_range_str, charge_strategy):
 
     :param hour_range_str: str, range of hours, like '9:00~13:00'.
     :param charge_strategy: dict, charge strategy of the day.
-    :return: list
+    :return: list, with information of hours and payment per hour.
 
     Usage::
         >>> payment_list('12:00~15:00', CHARGE_STRATEGY[('Sat', 'Sun')])
@@ -253,7 +254,7 @@ def info_rows_generator(info_iter):
     A generator of information.
 
     :param info_iter: iterable, formed by string of ordering information.
-    :return: generator, out put strings with total information.
+    :return: generator, output strings with total information.
     """
     total_income, total_payment, total_profit = 0, 0, 0
     title = ['[Summary]', '']
@@ -278,7 +279,7 @@ def generate_summary(info_iter, is_generator):
     A wrapper of output iterable information.
 
     :param info_iter: iterable.
-    :param is_generator: boolean, if the return type is a generator.
+    :param is_generator: bool, if the return type is a generator.
     :return: iterable, generator.
     """
     info_handler = info_rows_generator if is_generator else info_rows
@@ -288,6 +289,5 @@ def generate_summary(info_iter, is_generator):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
     import doctest
     doctest.testmod()

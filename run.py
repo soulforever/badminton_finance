@@ -34,7 +34,7 @@ def _input_from_file(is_check):
     Get input from a file.
     When the file is really huge or the data format is absolutely correct, please set is_check False.
 
-    :param is_check: boolean, if check the input each line.
+    :param is_check: bool, if check the input each line.
     """
     with open(_CONFIG['INPUT_FILE_PATH']) as f:
         # # a simple implement if the file is a little one
@@ -80,7 +80,7 @@ def input_summary():
     """
     Wrapper for input functions.
 
-    :return: iterable.
+    :return: iterable, list or generator.
     """
     input_func = _INPUT_TYPE_DICT[_CONFIG['INPUT_TYPE']]
     return input_func(_CONFIG['IS_CHECK'])
@@ -90,7 +90,6 @@ def output_summary():
     """
     Get a iterable object for output.
     When the input is a really huge one, please set the is_generator True.
-
     """
     info_iter = input_summary()
     if not info_iter:
@@ -111,9 +110,6 @@ def main():
     """
     Entry of this programme.
     """
-    # can give some enter info
-    pass
-
     # get options from args
     parser = argparse.ArgumentParser(prog='Badminton Finance')
 
@@ -138,8 +134,6 @@ def main():
     # call the output function
     output_summary()
 
-    # can give some exit info
-    pass
 
 if __name__ == '__main__':
     main()

@@ -6,7 +6,6 @@ Helper module for badminton_finance.
 '''
 
 import datetime
-import logging
 
 # incomes from every applicant
 INCOMES_PER_APPLICANT = 30
@@ -94,20 +93,19 @@ def _check_strategy():
     """
     Help function for check legality of CHARGE_STRATEGY.
     """
-    assert_str = 'Config in CHARGE_STRATEGY is illegal.'
+    assert_msg = 'Config in CHARGE_STRATEGY is illegal.'
     for week, strategy in CHARGE_STRATEGY.iteritems():
         for item in week:
-            assert item in ('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'), assert_str
+            assert item in ('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'), assert_msg
         for k, v in strategy.iteritems():
             start_k, end_k = convert_time_str_tuple(k)
-            assert start_k < end_k, assert_str
-            assert v > 0, assert_str
+            assert start_k < end_k, assert_msg
+            assert v > 0, assert_msg
 
 # assert the strategy is legal
 _check_strategy()
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
     import doctest
     doctest.testmod()
