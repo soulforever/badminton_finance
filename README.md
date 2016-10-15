@@ -63,9 +63,9 @@ Profit: 1160
 ### 3. 观察一下文件 瞄一眼-_-！
 ```txt
 ├── badminton_finance
-│   ├── core.py
-│   ├── helpers.py
-│   └── __init__.py
+│   ├── core.py
+│   ├── helpers.py
+│   └── __init__.py
 ├── test
 ├── data
 ├── docs
@@ -163,7 +163,10 @@ CHARGE_STRATEGY = {
 
 多说无益，在```docs/build/html```这个路径下面，有个这样的这样的文件：```index.html```。
 
-用浏览器打开后，会有各个模块的文档。
+用浏览器打开后，会有各个模块的文档。不过生成这个需要在```docs```路径下build一下：
+```shell
+make html
+```
 
 ### 3. 怎么测试
 

@@ -8,7 +8,7 @@ import unittest
 
 class BasicTestSuite(unittest.TestCase):
     """
-    Test the calculation of courts.
+    Test the basic functions.
     """
     def test_courts(self):
         assert core.courts(3) == 0

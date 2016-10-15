@@ -54,7 +54,7 @@ CHARGE_STRATEGY = {
 
 def value_for(number, config_dict):
     """
-    A helper function to find key in config dict.
+    Help function to find key in config dict.
 
     :param number: int, the number to find range key.
     :param config_dict: dict, keys are tuple to define the range.
@@ -83,15 +83,16 @@ def value_for(number, config_dict):
 def convert_time_str_tuple(str_tuple):
     """
     Help function for convert a time string tuple to datetime object tuple.
+
     :param str_tuple: tuple, formed by time string.
-    :return: tuple, formed by time object
+    :return: tuple, formed by time object.
     """
     return tuple([datetime.datetime.strptime(time_str, '%H:%M') for time_str in str_tuple])
 
 
 def _check_strategy():
     """
-    Help function for check legality of CHARGE_STRATEGY
+    Help function for check legality of CHARGE_STRATEGY.
     """
     assert_str = 'Config in CHARGE_STRATEGY is illegal.'
     for week, strategy in CHARGE_STRATEGY.iteritems():

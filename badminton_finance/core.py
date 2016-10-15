@@ -21,6 +21,7 @@ _RE_NUM = re.compile(r'\d+')
 def check_input_line(format_str_line):
     """
     Check the legality of input line.
+
     :param format_str_line: str, one line input.
     :return: None.
     """
@@ -76,11 +77,11 @@ def income(applicants):
     return applicants * INCOMES_PER_APPLICANT
 
 
-def payment(exp_list):
+def payment(payment_list):
     """
-    Calculate the payment by the hours and payment per_hour.
+    Calculate the payment by the hours and payment per hour.
 
-    :param exp_list: list, formed by tuple with hours and payment.
+    :param payment_list: list, formed by tuple with hours and payment.
     :return: int, payment calculated by the information of the payment list.
 
     Usage::
@@ -89,15 +90,15 @@ def payment(exp_list):
         >>> payment([(2,40), (3, 50)])
         230
     """
-    return sum(hours * payment_per_hour for (hours, payment_per_hour) in exp_list)
+    return sum(hours * payment_per_hour for (hours, payment_per_hour) in payment_list)
 
 
 def day_of_week(data_str):
     """
-    Check the date, weekday or weekend
+    Check the date, weekday or weekend.
 
-    :param data_str: str, format as '%Y-%m-%d' like '2016-06-02'
-    :return: str, weekday or weekend
+    :param data_str: str, format as '%Y-%m-%d' like '2016-06-02'.
+    :return: str, weekday or weekend.
 
     Usage::
         >>> day_of_week('2016-10-14')
@@ -119,7 +120,7 @@ def _payment_list_driver(hour_range_tuple, charge_strategy, result_list):
     :param hour_range_tuple: tuple, range of hours, formed by datetime object.
     :param charge_strategy: dict, charge strategy of the day.
     :param result_list: list, items are tuple formed by hours and charge.
-    :return: list
+    :return: list, result list after recursion.
 
     Usage::
         >>> time_1 = datetime.datetime.strptime('20:00', '%H:%M')
@@ -193,15 +194,15 @@ def info_single(format_str_line):
             charge_strategy = v
     if not charge_strategy:
         raise AttributeError('Can not found information of this day of week in config.')
-    exp = payment(payment_list(hour_range_str, charge_strategy)) * numbers_courts
+    pay = payment(payment_list(hour_range_str, charge_strategy)) * numbers_courts
 
     # calculate the profit, use '+' because the payment in negative
-    bal = inc - exp
+    pro = inc - pay
 
     # use the time string as key of the return dict
     time = date_str + ' ' + hour_range_str
     # format the return dict
-    return dict(time=time, income=inc, payment=exp, profit=bal)
+    return dict(time=time, income=inc, payment=pay, profit=pro)
 
 
 def info_rows(info_iter):
@@ -252,7 +253,7 @@ def info_rows_generator(info_iter):
     A generator of information.
 
     :param info_iter: iterable, formed by string of ordering information.
-    :yield: str, out put string with total information.
+    :return: generator, out put strings with total information.
     """
     total_income, total_payment, total_profit = 0, 0, 0
     title = ['[Summary]', '']
@@ -274,11 +275,11 @@ def info_rows_generator(info_iter):
 
 def generate_summary(info_iter, is_generator):
     """
-    A wrapper of summary.
+    A wrapper of output iterable information.
 
     :param info_iter: iterable.
     :param is_generator: boolean, if the return type is a generator.
-    :return: iterable, generator or list.
+    :return: iterable, generator.
     """
     info_handler = info_rows_generator if is_generator else info_rows
     output_iter = info_handler(info_iter)
